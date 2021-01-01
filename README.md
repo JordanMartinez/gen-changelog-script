@@ -1,6 +1,8 @@
 # gen-changelog-script
 
-Script written in PureScript that will help generate a `CHANGELOG.md` file for each of the core PureScript repos
+Script written in PureScript that will help generate a `CHANGELOG.md` file for each of the core PureScript repos.
+
+See [CHANGELOG-sample.md](./CHANGELOG-sample.md) for an example of the output.
 
 ## To build and run
 
