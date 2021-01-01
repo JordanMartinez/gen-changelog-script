@@ -1,0 +1,25 @@
+{
+  "name": "gen-changelog-script",
+  "description": "Script written in PureScript that will help generate a `CHANGELOG.md` file for each of the core PureScript repos",
+  "private": true,
+  "dependencies": {
+    "xhr2": "^0.2.0"
+  },
+  "devDependencies": {
+    "spago": "^0.18.1",
+    "purescript": "v0.13.8"
+  },
+  "scripts": {
+    "build": "spago bundle-app -t ./genChangelog.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JordanMartinez/gen-changelog-script.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JordanMartinez/gen-changelog-script/issues"
+  },
+  "homepage": "https://github.com/JordanMartinez/gen-changelog-script#readme"
+}
