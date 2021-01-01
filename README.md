@@ -14,5 +14,5 @@ npm run build
 
 # Creates the `./CHANGELOG.md` file and fills it with
 # releates notes from `purescript/purescript-prelude` repo
-node ./genChangelog.js -u purescript -r prelude -o CHANGELOG.md
+node ./mk-changelog.js -u purescript -r prelude -o CHANGELOG.md
 ```

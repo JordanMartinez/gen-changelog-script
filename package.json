@@ -10,7 +10,7 @@
     "purescript": "v0.13.8"
   },
   "scripts": {
-    "build": "spago bundle-app -t ./genChangelog.js"
+    "build": "spago bundle-app -t ./mk-changelog.js"
   },
   "repository": {
     "type": "git",
