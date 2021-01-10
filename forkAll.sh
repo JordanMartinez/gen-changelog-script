@@ -2,11 +2,8 @@
 
 filename='purescript.txt'
 echo Start
-while read p; do
-  echo "==============="
-  echo "Forking $p"
+while read -r -u9 p; do
   pushd ../fourteen
   gh repo fork purescript/purescript-$p --clone=true --remote=true
   popd
-  echo "Finished forking for: $p"
-done < $filename
+done 9< $filename
