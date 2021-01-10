@@ -2,7 +2,7 @@
 
 filename='purescript.txt'
 echo Start
-while read p; do
+while read -r -u9 p; do
   echo "==============="
   echo "Creating PR for $p"
   echo ""
@@ -39,4 +39,4 @@ while read p; do
   gh pr create --repo purescript/purescript-$p --title "Generate changelog and add PR template" --body "Part of purescript/purescript#3984"
   popd
   echo "Finished PR for: $p"
-done < $filename
+done 9< $filename
