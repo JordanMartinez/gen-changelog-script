@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-filename='ps.txt'
+filename='purescript.txt'
 echo Start
 while read p; do
   echo "==============="
