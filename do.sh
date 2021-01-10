@@ -28,14 +28,13 @@ while read -r -u9 p; do
   git add ./.github/
   git commit -m "Add pull request template"
 
-  git push -u origin addChangelog
-
   sed -i 's/0.14.0-rc3/0.14.0-rc5/' ./.github/workflows/ci.yml
   sed -i 's/0.14.0-rc4/0.14.0-rc5/' ./.github/workflows/ci.yml
 
   git add ./.github/
   git commit -m "Update CI in PS to v0.14.0-rc5"
 
+  git push -u origin addChangelog
   gh pr create --repo purescript/purescript-$p --title "Generate changelog and add PR template" --body "Part of purescript/purescript#3984"
   popd
   echo "Finished PR for: $p"
