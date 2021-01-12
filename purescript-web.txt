@@ -16,4 +16,3 @@ canvas
 web-socket
 web-file
 web-storage
-web-performance
