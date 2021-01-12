@@ -20,7 +20,6 @@ while read -r -u9 p; do
   echo "  Generating changelog"
   node ./mk-changelog.js -u purescript -r $p -o "../fourteen/purescript-$p/CHANGELOG.md"
 
-  echo "  Creating PR"
   pushd ../fourteen/purescript-$p
   git add ./CHANGELOG.md
   git commit -m "Generate CHANGELOG.md file using notes from previous GH releases"
@@ -34,6 +33,7 @@ while read -r -u9 p; do
   git add ./.github/
   git commit -m "Update CI in PS to v0.14.0-rc5"
 
+  echo "  Creating PR"
   git push -u origin addChangelog
   gh pr create --repo purescript/purescript-$p --title "Generate changelog and add PR template" --body "Part of purescript/purescript#3984"
   popd
