@@ -18,7 +18,7 @@ while read -r -u9 p; do
   cp ./PULL_REQUEST_TEMPLATE.md ../fourteen/purescript-$p/.github/
 
   echo "  Generating changelog"
-  node ./mk-changelog.js -u purescript -r $p -o "../fourteen/purescript-$p/CHANGELOG.md"
+  node ./mk-changelog.js -u purescript-web -r $p -o "../fourteen/purescript-$p/CHANGELOG.md" -t $1
 
   pushd ../fourteen/purescript-$p
   git add ./CHANGELOG.md
