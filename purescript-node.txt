@@ -1,0 +1,12 @@
+node-readline
+node-http
+node-fs
+node-process
+node-net
+node-fs-aff
+node-child-process
+node-buffer
+node-streams
+node-url
+posix-types
+node-path
