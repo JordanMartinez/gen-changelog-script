@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-filename='purescript.txt'
+filename='purescript-web.txt'
 echo Start
 while read -r -u9 p; do
   echo "==============="
