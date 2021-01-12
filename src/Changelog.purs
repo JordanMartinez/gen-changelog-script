@@ -3,6 +3,8 @@ module Changelog where
 import Prelude
 
 import Affjax as AX
+import Affjax.StatusCode as AXSC
+import Affjax.RequestHeader as AXRH
 import Affjax.ResponseFormat as RF
 import Data.Array (filter, null)
 import Data.Codec (decode)
@@ -37,7 +39,14 @@ releaseCodec =
     , draft: CA.boolean
     }
 
-generateChangelogContent :: forall r. { owner :: String, repo :: String | r } -> Aff String
+type GhArgs r =
+  { owner :: String
+  , repo :: String
+  , token :: String
+  | r
+  }
+
+generateChangelogContent :: forall r. GhArgs r -> Aff String
 generateChangelogContent gh = do
   releases <- recursivelyFetchReleases [] 1 gh
   let
@@ -81,22 +90,27 @@ generateChangelogContent gh = do
         Nothing -> line
         Just _ -> "**" <> drop (length prefix) line <> "**"
 
-recursivelyFetchReleases :: forall r. Array ReleaseInfo -> Int -> { owner :: String, repo :: String | r } -> Aff (Array ReleaseInfo)
+recursivelyFetchReleases :: forall r. Array ReleaseInfo -> Int -> GhArgs r -> Aff (Array ReleaseInfo)
 recursivelyFetchReleases accumulator page gh = do
   pageNResult <- fetchNextPageOfReleases page gh
   case pageNResult of
     Nothing -> pure accumulator
     Just arr -> recursivelyFetchReleases (accumulator <> arr) (page + 1) gh
 
-fetchNextPageOfReleases :: forall r. Int -> { owner :: String, repo :: String | r } -> Aff (Maybe (Array ReleaseInfo))
+fetchNextPageOfReleases :: forall r. Int -> GhArgs r -> Aff (Maybe (Array ReleaseInfo))
 fetchNextPageOfReleases page gh = do
-  let url = "https://api.github.com/repos/" <> gh.owner <> "/" <> gh.repo <> "/releases?per_page=100&page=" <> show page
+  let
+    url = "https://api.github.com/repos/" <> gh.owner <> "/" <> gh.repo <> "/releases?per_page=100&page=" <> show page
+    authHeader = AXRH.RequestHeader "Authorization" $ "token" <> gh.token
+    reqInfo = AX.defaultRequest
+      { url = url
+      , responseFormat = RF.json
+      , headers = [ authHeader ]
+      }
 
-  result <- AX.get RF.json url
+  result <- AX.request reqInfo
   case result of
-    Left err -> do
-      throwError (error $ AX.printError err)
-    Right { body } ->
+    Right { body, status } | status == AXSC.StatusCode 200 ->
       case decode (array releaseCodec) body of
         Left e -> do
           throwError $ error $ printJsonDecodeError e
@@ -104,3 +118,8 @@ fetchNextPageOfReleases page gh = do
           pure Nothing
         Right releases -> do
           pure $ Just releases
+    Right rec -> do
+      let errorMessage = show rec.status <> ": " <> show rec.statusText
+      throwError $ error errorMessage
+    Left err -> do
+      throwError $ error $ AX.printError err

@@ -18,8 +18,14 @@ main = do
     mainContent <- generateChangelogContent args
     FS.writeTextFile UTF8 args.outputFile (initialChangelogFileText <> mainContent)
 
-parser :: OA.Parser { owner :: String, repo :: String, outputFile :: String }
+parser :: OA.Parser { owner :: String, repo :: String, outputFile :: String, token :: String }
 parser = ado
+  token <- OA.strOption $ fold
+    [ OA.long "token"
+    , OA.short 't'
+    , OA.metavar "GITHUB_TOKEN"
+    , OA.help "The GitHub Auth token that prevents this program from being rate-limited"
+    ]
   owner <- OA.strOption $ fold
     [ OA.long "user"
     , OA.short 'u'
@@ -40,7 +46,7 @@ parser = ado
     , OA.metavar "FILE"
     , OA.help "The file that will contain the generated changelog file"
     ]
-  in { owner, repo: "purescript-" <> repo, outputFile }
+  in { owner, repo: "purescript-" <> repo, outputFile, token }
 
 initialChangelogFileText :: String
 initialChangelogFileText = joinWith "\n"
