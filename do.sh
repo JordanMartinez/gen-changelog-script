@@ -35,7 +35,7 @@ while read -r -u9 p; do
 
   echo "  Creating PR"
   git push -u origin addChangelog
-  gh pr create --repo purescript/purescript-$p --title "Generate changelog and add PR template" --body "Part of purescript/purescript#3986"
+  gh pr create --repo purescript-web/purescript-$p --title "Generate changelog and add PR template" --body "Part of purescript/purescript#3986"
   popd
   echo "Finished PR for: $p"
 done 9< $filename
