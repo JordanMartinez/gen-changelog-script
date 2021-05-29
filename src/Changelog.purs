@@ -111,7 +111,7 @@ fetchNextPageOfReleases page gh = do
       , responseFormat = RF.json
       -- note to self: not sure if this authorization part is stil correct
       , headers = maybe mempty
-        (\t -> [ AXRH.RequestHeader "Authorization" $ "token" <> t ]) gh.token 
+        (\t -> [ AXRH.RequestHeader "Authorization" $ "token" <> t ]) gh.token
       }
 
   result <- AX.request reqInfo
